@@ -21,20 +21,24 @@ export default function App() {
   const [clicks, setClicks] = useState(getInitialClicks)
 
   const updateFeedback = feedbackType => {
-    if (feedbackType !== 'reset'){
-    setClicks({
-      ...clicks,
-      [feedbackType]: clicks[feedbackType] + 1
+    setClicks(prevClicks => {
+      if (feedbackType !== 'reset') {
+        return {
+          ...prevClicks,
+          [feedbackType]: prevClicks[feedbackType] + 1
+        }
+      }
     })
-    } 
-    else {
-      setClicks({
-        good: 0,
-        neutral: 0,
-        bad: 0
-      })
-    }
   }
+
+  const resetFeedback = () => {
+    setClicks({
+      good: 0,
+      neutral: 0,
+      bad: 0
+      })
+  }
+
   useEffect(() => {
     localStorage.setItem("clickCount", JSON.stringify(clicks))
   },[clicks])
@@ -46,7 +50,7 @@ export default function App() {
   return (
    <div>
      <Description />
-     <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} />
+     <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} reset={resetFeedback} />
      {totalFeedback === 0 ? <Notification /> :
      <Feedback value={clicks} totalFeedback={totalFeedback} positive={positiveCalculation} />}    
    </div>
