@@ -21,15 +21,11 @@ export default function App() {
   const [clicks, setClicks] = useState(getInitialClicks)
 
   const updateFeedback = feedbackType => {
-    setClicks(prevClicks => {
-      if (feedbackType !== 'reset') {
-        return {
-          ...prevClicks,
-          [feedbackType]: prevClicks[feedbackType] + 1
-        }
-      }
+    setClicks(prevClicks => ({
+      ...prevClicks,
+      [feedbackType]: prevClicks[feedbackType] + 1
     })
-  }
+  )}
 
   const resetFeedback = () => {
     setClicks({
